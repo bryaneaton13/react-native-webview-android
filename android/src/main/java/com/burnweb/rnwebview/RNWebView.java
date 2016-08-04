@@ -13,6 +13,7 @@ import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.webkit.PermissionRequest;
 
 import com.facebook.react.bridge.LifecycleEventListener;
 import com.facebook.react.uimanager.ThemedReactContext;
@@ -72,6 +73,12 @@ class RNWebView extends WebView implements LifecycleEventListener {
         @SuppressLint("NewApi")
         public boolean onShowFileChooser(WebView webView, ValueCallback<Uri[]> filePathCallback, FileChooserParams fileChooserParams) {
             return getModule().startFileChooserIntent(filePathCallback, fileChooserParams.createIntent());
+        }
+
+        // @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+        @Override
+        public void onPermissionRequest(final PermissionRequest request) {
+            request.grant(request.getResources());
         }
     }
 
